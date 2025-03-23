@@ -10,7 +10,7 @@ A novel framework designed to integrate multiple daughter captures and utilize H
   <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_workflow.png" width="1000"/>
 </p>
 <p align="center">
-  <strong>Figure:</strong> <em>Workflow of the iSCALE framework for uncovering gene expression at near single-cell resolution in large-sized tissues.</em>
+  <strong>Figure:</strong> <em>iSCALE workflow</em>
 </p>
 
 
