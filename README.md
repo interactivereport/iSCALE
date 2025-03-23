@@ -5,7 +5,8 @@ This software package implements iSCALE
 (Inferring Spatially resolved Cellular Architectures for Large-sized tissue Environments),
 A novel framework designed to integrate multiple daughter captures and utilize H&E information from large tissue samples, enabling the prediction of gene expression in large-sized tissues with near single-cell resolution.
 
-![Workflow](assets/iSCALE_workflow.png)
+<img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_workflow.png" width="1200"/>
+
 
 
 
