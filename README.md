@@ -7,7 +7,7 @@ A novel framework designed to integrate multiple daughter captures and utilize H
 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_workflow.png" width="1000"/>
+  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_workflow2.png" width="1000"/>
 </p>
 <p align="center">
   <strong>Figure:</strong> <em>iSCALE workflow</em>
