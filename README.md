@@ -1,5 +1,5 @@
 # iSCALE
-## Scaling up spatial transcriptomics for large-sized tisses: uncovering cellular-level tissue architecture beyond conventional platforms with iSCALE
+## Scaling up spatial transcriptomics for large-sized tissues: uncovering cellular-level tissue architecture beyond conventional platforms with iSCALE
 
 This software package implements iSCALE
 (Inferring Spatially resolved Cellular Architectures for Large-sized tissue Environments),
