@@ -1,4 +1,9 @@
-# iSCALE
+
+<p align="left">
+  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_logo2.png" width="250"/>
+</p>
+
+
 ## Scaling up spatial transcriptomics for large-sized tissues: uncovering cellular-level tissue architecture beyond conventional platforms with iSCALE
 
 This software package implements iSCALE
