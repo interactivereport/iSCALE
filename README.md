@@ -1,6 +1,6 @@
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_logo2.png" width="250"/>
+  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_logo2.png" width="200"/>
 </p>
 
 
@@ -12,7 +12,7 @@ A novel framework designed to integrate multiple daughter captures and utilize H
 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_workflow2.png" width="1000"/>
+  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_workflow2.png" width="1200"/>
 </p>
 <p align="center">
   <strong>Figure:</strong> <em>iSCALE workflow</em>
