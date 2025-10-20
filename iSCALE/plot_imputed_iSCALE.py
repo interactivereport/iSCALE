@@ -44,21 +44,21 @@ def main():
     mask2 = load_image(f'{prefix}mask-small-refined.png') > 0
 
     for gn in gene_names:
-        cnts = load_pickle(f'{prefix}cnts-super-refined/{gn}.pickle')
+        cnts = load_pickle(f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super-refined/{gn}.pickle')
         cnts[~mask] = np.nan
-        plot_super(cnts, f'{prefix}cnts-super-plots-refined/{gn}.png')
+        plot_super(cnts, f'{prefix}iSCALE_output/super_res_ST_plots/cnts-super-plots-refined/{gn}.png')
 
 
     for gn in gene_names:
-        cnts = load_pickle(f'{prefix}cnts-super-refined/{gn}.pickle')
+        cnts = load_pickle(f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super-refined/{gn}.pickle')
         cnts[~mask2] = np.nan
-        plot_super(cnts, f'{prefix}cnts-super-plots-refined-mask/{gn}.png')
+        plot_super(cnts, f'{prefix}iSCALE_output/super_res_ST_plots/cnts-super-plots-refined-mask/{gn}.png')
 
 
-    for gn in gene_names:
-        cnts = load_pickle(f'{prefix}cnts-super/{gn}.pickle')
-        cnts[~mask] = np.nan
-        plot_super(cnts, f'{prefix}cnts-super-plots/{gn}.png')
+    #for gn in gene_names:
+        #cnts = load_pickle(f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super/{gn}.pickle')
+        #cnts[~mask] = np.nan
+        #plot_super(cnts, f'{prefix}iSCALE_output/super_res_ST_plots/cnts-super-plots/{gn}.png')
 
 
 if __name__ == '__main__':

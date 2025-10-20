@@ -161,7 +161,7 @@ def get_locs(prefix, target_shape=None):
 
     # match coordinates of embeddings and spot locations
     if target_shape is not None:
-        wsi = load_image(f'{prefix}he.jpg')
+        wsi = load_image(f'{prefix}he.tiff')
         current_shape = np.array(wsi.shape[:2])
         rescale_factor = current_shape // target_shape
         locs = locs.astype(float)

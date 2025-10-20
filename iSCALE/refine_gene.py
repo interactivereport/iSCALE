@@ -63,8 +63,8 @@ def update_expression(gene_folder, output_folder, mask):
 def main(): 
     prefix = sys.argv[1]  
     index_image = sys.argv[2]  
-    gene_folder = f'{prefix}cnts-super'
-    output_folder = f'{prefix}cnts-super-refined'  # Folder where refined labels will be saved
+    gene_folder = f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super'
+    output_folder = f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super-refined'  # Folder where refined labels will be saved
 
 
     with open(f'{prefix}filterRGB/{index_image}', 'rb') as f:

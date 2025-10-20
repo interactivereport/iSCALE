@@ -6,7 +6,7 @@ import pandas as pd
 from utils import save_tsv, read_string, load_pickle
 from impute import get_data, get_patches_flat, get_data_remBorder
 from image import get_disk_mask
-from evaluate_imputed import metric_fin
+from evaluate_imputed_iSCALE import metric_fin
 
 
 def evaluate_fit(y, y_fit, gene_names, filename):
@@ -28,7 +28,7 @@ def get_fit(prefix, gene_names, locs, radius):
     for gname in gene_names:
 
         c_pred = load_pickle(
-                f'{prefix}cnts-super/{gname}.pickle', verbose=False)
+                f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super/{gname}.pickle', verbose=False)
         c_pred -= np.nanmin(c_pred)
         c_pred /= np.nanmax(c_pred) + 1e-12
 
@@ -54,7 +54,7 @@ def main():
     cnts_fit = get_fit(prefix, gene_names, locs, radius)
     evaluate_fit(
             cnts_obsr.to_numpy(), cnts_fit, gene_names,
-            f'{prefix}cnts-super-eval/factor9100.tsv')
+            f'{prefix}iSCALE_output/cnts-super-eval/factor9100.tsv')
 
 
 if __name__ == '__main__':

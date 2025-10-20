@@ -9,7 +9,7 @@ from utils import read_lines, load_pickle, save_pickle
 def get_gene_counts(gene_names, prefix, factor=None):
     cnt_list = []
     for gn in gene_names:
-        x = load_pickle(f'{prefix}cnts-super-refined/{gn}.pickle')
+        x = load_pickle(f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super-refined/{gn}.pickle')
         if factor is not None:
             x = reduce(
                     x, '(h1 h) (w1 w) -> h1 w1', 'sum', h=factor, w=factor)
@@ -26,7 +26,7 @@ def main():
     cnts = get_gene_counts(gene_names, prefix, factor=factor)
     save_pickle(
             dict(x=cnts, gene_names=gene_names),
-            f'{prefix}cnts-super-merged/factor{factor:04d}.pickle')
+            f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super-merged/factor{factor:04d}.pickle')
 
 
 if __name__ == '__main__':

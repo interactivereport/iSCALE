@@ -7,14 +7,12 @@ import pytorch_lightning as pl
 from torch.optim import Adam
 from torch import nn
 import numpy as np
-
 from impute_by_basic import get_gene_counts, get_embeddings, get_locs
-from utils import read_lines, read_string, save_pickle
+from utils import read_lines, read_string, save_pickle, load_image, load_tsv
 from image import get_disk_mask
 from train import get_model as train_load_model
 # from reduce_dim import reduce_dim
 from visual import plot_matrix, plot_spot_masked_image
-from utils import load_image, load_tsv, read_lines, read_string
 import pandas as pd
 import math
 from scipy.spatial.distance import pdist, squareform
@@ -245,7 +243,7 @@ def get_data_smooth(prefix, radius, dist):
 
     # match coordinates of embeddings and spot locations
     if target_shape is not None:
-        wsi = load_image(f'{prefix}he.jpg')
+        wsi = load_image(f'{prefix}he.tiff')
         current_shape = np.array(wsi.shape[:2])
         rescale_factor = current_shape // target_shape
         locs2 = locs2.astype(float)
@@ -305,7 +303,7 @@ def get_model(
     dataset = SpotDataset(x, y, locs, radius)
     dataset.show(
             channel_x=0, channel_y=0,
-            prefix=f'{prefix}training-data-plots/')
+            prefix=f'{prefix}iSCALE_output/training-data-plots/')
     model = train_load_model(
             model_class=ForwardSumModel,
             model_kwargs=dict(
@@ -422,7 +420,7 @@ def predict(
                 for mod, z in zip(model_states, z_states)], 0)
             for z_states in z_states_batches])
         for i, name in enumerate(name_grp):
-            save_pickle(y_grp[..., i], f'{prefix}cnts-super/{name}.pickle')
+            save_pickle(y_grp[..., i], f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super/{name}.pickle')
 
 
 def impute(
