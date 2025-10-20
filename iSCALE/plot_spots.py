@@ -8,26 +8,6 @@ from visual import plot_spots
 import matplotlib
 
 
-# def plot_spots(cnts, locs, underground, gene_names, radius, prefix):
-#     under_weight = 0.2
-#     cmap = plt.get_cmap('turbo')
-#     under = underground.mean(-1, keepdims=True)
-#     under = np.tile(under, 3)
-#     under -= under.min()
-#     under /= under.max() + 1e-12
-#     for k, name in enumerate(gene_names):
-#         x = cnts[:, k]
-#         x = x - x.min()
-#         x = x / (x.max() + 1e-12)
-#         img = under * under_weight
-#         for u, ij in zip(x, locs):
-#             lower = np.clip(ij - radius, 0, None)
-#             upper = np.clip(ij + radius, None, img.shape[:2])
-#             color = np.array(cmap(u)[:3]) * (1 - under_weight)
-#             img[lower[0]:upper[0], lower[1]:upper[1]] += color
-#         img = (img * 255).astype(np.uint8)
-#         save_image(img, f'{prefix}{name}.png')
-
 
 def plot_spots_multi(
         cnts, locs, gene_names, radius, img, prefix):
@@ -41,12 +21,14 @@ def plot_spots_multi(
 
 
 def main():
-    prefix = sys.argv[1]  # e.g. 'data/her2st/B1/'
+    prefix = sys.argv[1]  
+    grayHE_flag = sys.argv[2].lower() in ("true", "1", "yes")
+
     factor = 16
 
     infile_cnts = f'{prefix}cnts.tsv'
     infile_locs = f'{prefix}locs.tsv'
-    infile_img = f'{prefix}he-bw.jpg'
+    infile_img = f'{prefix}he.tiff'
     infile_genes = f'{prefix}gene-names.txt'
     infile_radius = f'{prefix}radius.txt'
 
@@ -60,6 +42,13 @@ def main():
     assert (cnts.index == locs.index).all()
     spot_radius = int(read_string(infile_radius))
     img = load_image(infile_img)
+
+    if grayHE_flag:
+        if img.ndim == 3 and img.shape[2] == 3:
+            # standard luminance weights
+            img = np.dot(img[..., :3], [0.299, 0.587, 0.114]).astype(np.uint8)
+        if img.ndim == 2:
+            img = np.stack([img] * 3, axis=-1)
 
     if img.dtype == bool:
         img = img.astype(np.uint8) * 255
@@ -88,7 +77,7 @@ def main():
             cnts=cnts,
             locs=locs, gene_names=gene_names,
             radius=spot_radius, 
-            img=img, prefix=prefix+'spots/')
+            img=img, prefix=prefix+'iSCALE_output/spot_level_ST_plots/spots/')
 
 
 if __name__ == '__main__':

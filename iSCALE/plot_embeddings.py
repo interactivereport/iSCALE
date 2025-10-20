@@ -56,11 +56,11 @@ def main():
         remove_background(embs, mask)
 
     plot_embeddings(
-            embs, n_channels=n_channels, prefix=args.prefix+'raw/')
+            embs, n_channels=n_channels, prefix=args.prefix+'iSCALE_output/HE_embeddings_plots/raw/')
 
     embs = reduce_dimension(embs, n_components=n_channels)
     plot_embeddings(
-            embs, n_channels=n_channels, prefix=args.prefix+'dim-reduced/')
+            embs, n_channels=n_channels, prefix=args.prefix+'iSCALE_output/HE_embeddings_plots/dim-reduced/')
 
 
 if __name__ == '__main__':

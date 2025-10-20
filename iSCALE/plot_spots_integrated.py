@@ -117,21 +117,21 @@ def plot_spots_multi(
 
 
 def main():
-    prefix = sys.argv[1]  # e.g. 'data/her2st/B1/'
-    dist = int(sys.argv[2])  # e.g. 'data/her2st/B1/'
+    prefix = sys.argv[1]  
+    grayHE_flag = sys.argv[2].lower() in ("true", "1", "yes")
+    dist = int(sys.argv[3])  
+
     factor = 16
 
     print(dist)
 
     infile_cnts = f'{prefix}cnts.tsv'
     infile_locs = f'{prefix}locs.tsv'
-    infile_img = f'{prefix}he-bw.jpg'
+    infile_img = f'{prefix}he.tiff'
     infile_genes = f'{prefix}gene-names.txt'
     infile_radius = f'{prefix}radius.txt'
 
     # load data
-    #cnts = load_tsv(infile_cnts)
-    #locs = load_tsv(infile_locs)
 
     locs, cnts = get_data_smooth_locs_cnts(prefix, dist)
 
@@ -141,6 +141,15 @@ def main():
     assert (cnts.index == locs.index).all()
     spot_radius = int(read_string(infile_radius))
     img = load_image(infile_img)
+
+
+    if grayHE_flag:
+        if img.ndim == 3 and img.shape[2] == 3:
+            # standard luminance weights
+            img = np.dot(img[..., :3], [0.299, 0.587, 0.114]).astype(np.uint8)
+        if img.ndim == 2:
+            img = np.stack([img] * 3, axis=-1)
+
 
     if img.dtype == bool:
         img = img.astype(np.uint8) * 255
@@ -169,7 +178,7 @@ def main():
             cnts=cnts,
             locs=locs, gene_names=gene_names,
             radius=spot_radius, 
-            img=img, prefix=prefix+'spots-integrated/')
+            img=img, prefix=prefix+'iSCALE_output/spot_level_ST_plots/spots-integrated/')
 
 
 if __name__ == '__main__':
