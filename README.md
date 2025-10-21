@@ -1,26 +1,23 @@
-<p align="left">
-  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_logo2.png" width="200"/>
-</p>
-
 
 # Scaling up spatial transcriptomics for large-sized tissues with **iSCALE**
 
-**iSCALE** (*Inferring Spatially resolved Cellular Architectures for Large-sized tissue Environments*)  
-is a novel framework designed to integrate multiple daughter captures and utilize H&E information from large tissue samples, enabling prediction of gene expression with near single-cell resolution across whole-slide tissues.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_workflow2.png" width="1200"/>
+  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_fig1.png" width="1200"/>
 </p>
 <p align="center">
   <strong>Figure:</strong> <em>iSCALE workflow</em>
 </p>
 
+**iSCALE** (*Inferring Spatially resolved Cellular Architectures for Large-sized tissue Environments*)  
+is a novel framework designed to integrate multiple daughter captures and utilize H&E information from large tissue samples, enabling prediction of gene expression with near single-cell resolution across whole-slide tissues.
 
 ---
 
 ## 🔧 Installation & Setup
 
-Clone the repository:
+Clone the repository (recommended) or download the `.zip` directly from GitHub:
+
 ```bash
 git clone https://github.com/amesch441/iSCALE.git
 cd iSCALE-main
@@ -50,7 +47,7 @@ cd iSCALE
 
 Download from [Box link](https://upenn.box.com/s/cburekr425ibu276wyxki09q35z2o3x0).
 
-- Place the model checkpoints:
+- Place the model checkpoint files:
   - `vit4k_xs_dino.pth`
   - `vit256_small_dino.pth`  
   into:
@@ -58,25 +55,30 @@ Download from [Box link](https://upenn.box.com/s/cburekr425ibu276wyxki09q35z2o3x
   iSCALE-main/iSCALE/checkpoints/
   ```
 
-- Place the demo dataset into:
+- Place the `demo` folder into:
   ```
-  iSCALE-main/iSCALE/data/demo/
+  iSCALE-main/iSCALE/data/
   ```
 
 ---
 
 ## ▶️ Running iSCALE
 
-To run the demo:
+To run the demo, submit the appropriate job script depending on your cluster scheduler:
+
 ```bash
-sbatch run_iSCALE.sh
+bsub < _run_iSCALE_bsub.sh     # For LSF systems
+sbatch _run_iSCALE_sbatch.sh   # For SLURM systems
 ```
-with `prefix="Data/demo/gastricTumor/"`.  
+
+with `prefix="Data/demo/"`.  
 Ground truth for this demo gastric tumor tissue can be found in the `cnts-truth-agg` folder.
 
 - Use `_run_iSCALE_sbatch.sh` if your system uses **SLURM**.  
 - Use `_run_iSCALE_bsub.sh` if your system uses **LSF**.  
   (These scripts are identical except for scheduler setup.)
+
+⚠️ **Important**: Make sure to edit the header of the run script (`#SBATCH` for SLURM or `#BSUB` for LSF) to set the correct **queue/partition name** for your system, as well as any resource requests (GPUs, memory, runtime).
 
 ---
 
@@ -90,12 +92,16 @@ iSCALE-main/
 │
 ├── iSCALE/
 │   ├── checkpoints/        # pretrained models (place downloaded .pth files here)
-│   ├── data/               # input data (demo goes here)
+│   ├── data/               # input data (demo folder goes here)
 │   ├── Alignment_scripts/  # tools for semi-automatic alignment
+│   ├── logs/               # log directory
+│   │   ├── logs_output/    # job standard output logs
+│   │   └── logs_errors/    # job error logs
 │   ├── *.py                # main Python scripts
 │   ├── *.sh                # run scripts (SLURM/LSF)
 │   └── ...
 ```
+
 
 ---
 
@@ -126,17 +132,18 @@ iSCALE-main/iSCALE/Data/<project_name>/
     ├── he-raw.*                   # raw H&E (before scaling)
     ├── he-scaled.*                # scaled H&E (after resizing)
     ├── he.tiff                    # final processed H&E with padding
-    ├── radius-raw.txt             # raw spot radius in µm
-    ├── radius.txt                 # scaled radius (pixels, auto-generated if missing)
+    ├── radius-raw.txt             # raw spot radius in pixels
+    ├── radius.txt                 # scaled radius in pixels (auto-generated if missing using rescale_locs.py)
     └── markers.csv (optional)     # marker genes for auto-annotation
 ```
 
 ### Notes
-- **Supported H&E formats**:  
+- **Always run `preprocess.py` to generate the final `he.tiff` file** for the MotherImage folder.  
+- **Supported input H&E formats for mother image**:  
   `.tiff`, `.tif`, `.svs`, `.ome.tif`, `.ome.tiff`, `.jpg`, `.png`, `.ndpi`, `.scn`, `.mrxs`  
 - **locs.tsv**: must contain  
   ```
-  spot_id   x   y
+  spot   x   y
   ```
 - **cnts.tsv**: genes × spots matrix (tab-delimited).  
 - **markers.csv** (optional):  
@@ -166,7 +173,8 @@ Parameters are set in the run scripts (`_run_iSCALE_sbatch.sh` or `_run_iSCALE_b
 
 **Notes**  
 - `prefix_general` is the main project folder.  
-- `dist_ST=100` works well in most cases, but check QC plots in `iSCALE_output/spot_level_st_plots/` to tune if needed.  
+- `dist_ST=100` works well in most cases, but check QC plots in `iSCALE_output/spot_level_st_plots/spots-integrated` to tune if needed.  
+- `n_genes=100` is used in the demo because the Xenium dataset has a small targeted panel. For Visium and other platforms with larger gene counts, much higher values (e.g. 3000) are appropriate.
 
 ---
 
@@ -178,7 +186,7 @@ All results are saved to `iSCALE_output/`:
   QC plots to confirm correct alignment of daughter captures onto mother image.  
 - **super_res_gene_expression/**  
   Imputed super-resolution expression (pickle files).  
-  - `refined/` subfolder removes predictions outside nuclei regions.  
+  - `refined/` subfolder updates predictions for regions unlikely to contain cells.  
 - **super_res_ST_plots/**  
   Visualizations of super-resolution gene expression.  
   - includes `refined/`.  
