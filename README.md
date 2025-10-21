@@ -209,4 +209,4 @@ If you use iSCALE, please cite:
 
 ## 📜 License
 
-This project is licensed under the terms of the [LICENSE](./LICENSE) file included in this repository.
+This project is licensed under the terms of the [LICENSE](./LICENSE.txt) file included in this repository.
