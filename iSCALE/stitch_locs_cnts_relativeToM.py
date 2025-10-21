@@ -118,7 +118,9 @@ def main():
     #args = get_args()
     outpref = sys.argv[1]
     inppref_list = sys.argv[2:]
-    names = ['D1', 'D2', 'D3', 'D4','D5'] #, 'D6', 'D7', 'D8', 'D9', 'D10'
+
+    # derive names from folder paths (last folder name)
+    names = [os.path.basename(os.path.normpath(p)) for p in inppref_list]
 
     # stitch locs
     locs_list = [load_tsv(pref+'locs.tsv') for pref in inppref_list]
