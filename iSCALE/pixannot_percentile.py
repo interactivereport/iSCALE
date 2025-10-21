@@ -117,12 +117,12 @@ def main():
     marker_file = sys.argv[2]  # e.g. data/markers/celltype.tsv
     prefix_out = sys.argv[3]  # e.g. data/her2st/H123/cell-types/
 
-    scores_dict = get_scores_per_gene(prefix_inp, marker_file)
+    #scores_dict = get_scores_per_gene(prefix_inp, marker_file)
 
-    for gname, (sco, label) in scores_dict.items():
-        outdir = f"{prefix_out}scores_per_gene/"
-        os.makedirs(outdir, exist_ok=True)
-        plot_matrix(sco, f"{outdir}{gname}_{label}.png", white_background=True)
+    #for gname, (sco, label) in scores_dict.items():
+        #outdir = f"{prefix_out}scores_per_gene/"
+        #os.makedirs(outdir, exist_ok=True)
+        #plot_matrix(sco, f"{outdir}{gname}_{label}.png", white_background=True)
 
     scores, lab_names = get_scores(prefix_inp, marker_file)
 
