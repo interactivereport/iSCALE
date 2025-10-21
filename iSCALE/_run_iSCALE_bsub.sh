@@ -1,10 +1,10 @@
 #!/bin/bash
-#BSUB -J iSCALE_run_demo              # Job name
-#BSUB -q gpu_priority                      # Queue name
-#BSUB -n 1                            # CPU cores (increase if using multi with >1 workers)
-#BSUB -gpu "num=1"                    # Request 1 GPU
-#BSUB -R "rusage[mem=120000]"          # Memory (MB)
-#BSUB -W 100:00                       # Walltime
+#BSUB -J iSCALE_run_demo                   # Job name
+#BSUB -q gpu_xxx                           # Queue name
+#BSUB -n 1                                 # CPU cores (increase if using multi with >1 workers)
+#BSUB -gpu "num=1"                         # Request 1 GPU
+#BSUB -R "rusage[mem=120000]"              # Memory (MB)
+#BSUB -W 100:00                            # Walltime
 #BSUB -o logs/logs_output/hs_output_%J.log # Stdout
 #BSUB -e logs/logs_errors/hs_error_%J.log  # Stderr
 
