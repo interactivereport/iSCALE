@@ -23,66 +23,62 @@ def replace_with_percentile(matrix):
     return replaced_matrix
 
 
-def compute_score_percentile(cnts, mask=None, factor=None):
-    if mask is not None:
-        #cnts = cnts.flatten()
-        #print(mask)
-        #print(cnts)
 
-        #mask = mask[:,:,0] #here
-        cnts[~mask] = np.nan
+def compute_score_percentile(cnts, mask=None, factor=None, cutoff=0.00001):
+    out_cnts = np.full_like(cnts, np.nan, dtype=float)  # start with all NaNs
 
-
-    print("cnts original shape")
-    print(cnts.shape)
-
-    ## Compute percentile for each gene
     for i in range(cnts.shape[2]):
-        print(i)
-        cnts[:,:,i] = replace_with_percentile(cnts[:,:,i])
+        gene_slice = cnts[:, :, i].astype(float)
 
+        # Apply mask
+        if mask is not None:
+            gene_slice = np.where(mask, gene_slice, np.nan)
 
-    print("cnts shape 2")
-    print(cnts.shape)
+        # Cutoff very small values
+        gene_slice[gene_slice < cutoff] = np.nan
 
+        # Apply percentile transform (only to valid values)
+        if np.all(np.isnan(gene_slice)):
+            out_cnts[:, :, i] = np.nan
+        else:
+            out_cnts[:, :, i] = replace_with_percentile(gene_slice)
+
+        # Reapply mask so NaNs remain outside tissue
+        if mask is not None:
+            out_cnts[:, :, i] = np.where(mask, out_cnts[:, :, i], np.nan)
+
+    # Downsample if needed
     if factor is not None:
-        cnts = reduce(
-                cnts, '(h0 h1) (w0 w1) c -> h0 w0 c', 'mean',
-                h1=factor, w1=factor)
+        out_cnts = reduce(
+            out_cnts, '(h0 h1) (w0 w1) c -> h0 w0 c', 'mean',
+            h1=factor, w1=factor
+        )
 
-    cnts -= np.nanmin(cnts, (0, 1))
-    cnts /= np.nanmax(cnts, (0, 1)) + 1e-12
+    # Normalize each gene channel separately
+    for i in range(out_cnts.shape[2]):
+        slice_ = out_cnts[:, :, i]
+        if np.all(np.isnan(slice_)):
+            continue
+        min_val, max_val = np.nanmin(slice_), np.nanmax(slice_)
+        if max_val > min_val:
+            out_cnts[:, :, i] = (slice_ - min_val) / (max_val - min_val + 1e-12)
 
-    print("cnts shape 3")
-    print(cnts.shape)
+    # Average across genes, ignore NaNs
+    score = np.nanmean(out_cnts, axis=-1)
 
-    #print("cnts percentile shape")
-    #print(cnts_percentile.shape)
-
-    #score = cnts.mean(-1)
-    #print("score shape")
-    #print(score.shape)
-    #cnts_percentile = replace_with_percentile(cnts[:,:,0])
-
-    score = cnts.mean(-1)
-
-
-    print("percentile score shape")
-    print(score.shape)
+    # Reapply mask at the very end
+    if mask is not None:
+        score = np.where(mask, score, np.nan)
 
     return score
-
 
 
 
 def compute_score(cnts, mask=None, factor=None):
     if mask is not None:
         #cnts = cnts.flatten()
-        #print(mask)
-        #print(cnts)
 
-
-        mask = mask[:,:,0] #here
+        #mask = mask[:,:,0] #here
         cnts[~mask] = np.nan
 
     if factor is not None:
@@ -92,24 +88,20 @@ def compute_score(cnts, mask=None, factor=None):
 
     cnts -= np.nanmin(cnts, (0, 1))
     cnts /= np.nanmax(cnts, (0, 1)) + 1e-12
-
-
     score = cnts.mean(-1)
 
     return score
 
 
 
-
-
 def get_marker_score(prefix, genes_marker, factor=1):
 
     genes = read_lines(prefix+'gene-names.txt')
-    mask = load_image(prefix+'mask-small.png') > 0
+    mask = load_image(prefix+'mask-small-refined.png') > 0
 
     gene_names = set(genes_marker).intersection(genes)
     cnts = [
-            load_pickle(f'{prefix}cnts-super/{gname}.pickle')
+            load_pickle(f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super-refined/{gname}.pickle')
             for gname in gene_names]
 
 
@@ -121,18 +113,20 @@ def get_marker_score(prefix, genes_marker, factor=1):
 def get_marker_score_percentile(prefix, genes_marker, factor=1):
 
     genes = read_lines(prefix+'gene-names.txt')
-    mask = load_image(prefix+'mask-small.png') > 0
+    mask = load_image(prefix+'mask-small-refined.png') > 0
 
     gene_names = set(genes_marker).intersection(genes)
     cnts = [
-            load_pickle(f'{prefix}cnts-super/{gname}.pickle')
+            load_pickle(f'{prefix}/iSCALE_output/super_res_gene_expression/cnts-super-refined/{gname}.pickle')
             for gname in gene_names]
 
 
     #cnts = np.stack(cnts, -1, dtype='float32')
     cnts = np.stack(cnts, -1)
-    score = compute_score_percentile(cnts, mask=mask, factor=factor)
+    score = compute_score_percentile(cnts, mask=mask, factor=factor) 
     return score
+
+
 
 
 def main():
@@ -147,8 +141,8 @@ def main():
 
     # visualize marker score
     score = np.clip(
-            score, np.nanquantile(score, 0.001),
-            np.nanquantile(score, 0.999))
+            score, np.nanquantile(score, 0.05),
+            np.nanquantile(score, 0.95))
     plot_matrix(score, outfile, white_background=True)
 
 
