@@ -14,7 +14,7 @@ set -e
 # ================== User-set parameters  ==================
 
 # Data directory and device type
-prefix_general="Data/demo/gastricTumor/"  # e.g. Data/demo/ **** Note: must have subfolders "DaughterCaptures" and "MotherImage" ****
+prefix_general="Data/demo/"  # e.g. Data/demo/ **** Note: must have subfolders "DaughterCaptures" and "MotherImage" ****
 daughterCapture_folders=("D1" "D2" "D3" "D4" "D5")   # list of subfolders in DaughterCaptures
 device="cuda"  # "cuda" or "cpu"
 
