@@ -88,7 +88,7 @@ python stitch_locs_cnts_relativeToM.py \
 #### If you have a user-defined list of genes, put it at `${prefix}gene-names.txt` and comment out the line below
 python select_genes.py --n-top=${n_genes} "${prefix}cnts.tsv" "${prefix}gene-names.txt"
 
-#### rescale coordinates and spot radius (if aligned to full-res image)
+#### rescale coordinates and spot radius (if aligned to full-res and not scaled image)
 #python rescale_locs.py.py ${prefix} --locs --radius
 
 #### visualize spot-level gene expression data
