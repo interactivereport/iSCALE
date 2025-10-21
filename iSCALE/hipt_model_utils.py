@@ -90,7 +90,7 @@ def get_vit4k(
     model4k.to(device)
 
     if pretrained_weights is not None:
-        state_dict = torch.load(pretrained_weights, map_location="cpu")
+        state_dict = torch.load(pretrained_weights, map_location="cpu", weights_only=False)
         if checkpoint_key is not None and checkpoint_key in state_dict:
             # print(f"Take key {checkpoint_key} in provided checkpoint dict")
             state_dict = state_dict[checkpoint_key]
