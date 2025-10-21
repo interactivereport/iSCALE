@@ -41,7 +41,7 @@ def main():
     prefix = sys.argv[1]  # e.g. 'data/her2st/B1/'
     gene_names = read_lines(f'{prefix}gene-names.txt')
     mask = load_image(f'{prefix}mask-small.png') > 0
-    mask2 = load_image(f'{prefix}mask-small-refined.png') > 0
+    mask2 = load_image(f'{prefix}filterRGB/mask-small-refined.png') > 0
 
     for gn in gene_names:
         cnts = load_pickle(f'{prefix}iSCALE_output/super_res_gene_expression/cnts-super-refined/{gn}.pickle')

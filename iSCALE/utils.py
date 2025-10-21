@@ -438,8 +438,8 @@ def to_vips(img):
 
 
 def load_image_vips(filename):
-    import pyvips
     print("read image with pyvips.....")
+    import pyvips
     image = pyvips.Image.new_from_file(filename, access='random')
     print(f"Image Width: {image.width}, Image Height: {image.height}, Image Bands: {image.bands}")
     return image

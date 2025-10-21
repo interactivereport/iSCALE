@@ -135,7 +135,7 @@ python cluster_iSCALE.py \
     --n-clusters=${n_clusters} \
     --filter-size=8 \
     --min-cluster-size=20 \
-    --mask=${prefix}mask-small-refined.png \
+    --mask=${prefix}filterRGB/mask-small-refined.png \
     --refinedImage=${prefix}filterRGB/conserve_index.pickle \
     ${prefix}embeddings-gene.pickle \
     ${prefix}iSCALE_output/clusters-gene_${n_clusters}/

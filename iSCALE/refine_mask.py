@@ -4,7 +4,7 @@ import os
 import numpy as np
 from PIL import Image
 from skimage import filters
-from utils import load_image_vips, get_image_filename
+from utils import load_image, get_image_filename
 from extract_features import patchify
 import pickle
 
@@ -29,14 +29,14 @@ def main():
         raise FileNotFoundError(f"Image not found at: {img_path}")
 
     print(f"\nLoading image from: {img_path}")
-    he = load_image_vips(img_path)
+    he_np = load_image(img_path)
 
     # convert to numpy for patchify
-    he_np = np.ndarray(
-        buffer=he.write_to_memory(),
-        dtype=np.uint8,
-        shape=[he.height, he.width, he.bands]
-    )
+    #he_np = np.ndarray(
+    #    buffer=he.write_to_memory(),
+    #    dtype=np.uint8,
+    #    shape=[he.height, he.width, he.bands]
+    #)
 
     # --- Load mask and downsample to superpixel grid ---
     mask_orig = np.array(Image.open(os.path.join(prefix, "mask.png")).convert("L"))
@@ -88,7 +88,7 @@ def main():
 
     mask_small = np.zeros((super_y, super_x), dtype=np.uint8)
     mask_small[super_grid] = 255
-    Image.fromarray(mask_small).save(os.path.join(prefix, "mask-small-refined.png"))
+    Image.fromarray(mask_small).save(os.path.join(prefix, "filterRGB/mask-small-refined.png"))
 
     # --- Build pixel-level mask ---
     mask_full = np.zeros((he_np.shape[0], he_np.shape[1]), dtype=np.uint8)
@@ -100,7 +100,7 @@ def main():
 
     # Combine with original mask
     combined_mask = np.where((mask_full == 0) | (mask_orig == 0), 0, 255).astype(np.uint8)
-    Image.fromarray(combined_mask).save(os.path.join(prefix, "mask-refined.png"))
+    Image.fromarray(combined_mask).save(os.path.join(prefix, "filterRGB/mask-refined.png"))
 
     print(f"Saved refined masks to {prefix}")
 

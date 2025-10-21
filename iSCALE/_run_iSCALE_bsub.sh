@@ -1,9 +1,9 @@
 #!/bin/bash
 #BSUB -J iSCALE_run_demo              # Job name
-#BSUB -q gpu_xxx                      # Queue name
+#BSUB -q gpu_priority                      # Queue name
 #BSUB -n 1                            # CPU cores (increase if using multi with >1 workers)
 #BSUB -gpu "num=1"                    # Request 1 GPU
-#BSUB -R "rusage[mem=64000]"          # Memory (MB)
+#BSUB -R "rusage[mem=120000]"          # Memory (MB)
 #BSUB -W 100:00                       # Walltime
 #BSUB -o logs/logs_output/hs_output_%J.log # Stdout
 #BSUB -e logs/logs_errors/hs_error_%J.log  # Stderr
@@ -14,7 +14,7 @@ set -e
 # ================== User-set parameters  ==================
 
 # Data directory and device type
-prefix_general="Data/demo/"  # e.g. Data/demo/ **** Note: must have subfolders "DaughterCaptures" and "MotherImage" ****
+prefix_general="Data/demo/gastricTumor/"  # e.g. Data/demo/ **** Note: must have subfolders "DaughterCaptures" and "MotherImage" ****
 daughterCapture_folders=("D1" "D2" "D3" "D4" "D5")   # list of subfolders in DaughterCaptures
 device="cuda"  # "cuda" or "cpu"
 
@@ -33,7 +33,7 @@ export OPENBLAS_NUM_THREADS=32
 export OMP_NUM_THREADS=32
 export MKL_NUM_THREADS=32
 
-prefix="${prefix_general}MotherImage/"   
+prefix="${prefix_general}MotherImage/"  
 
 ############# Create iSCALE environment #############
 
@@ -134,7 +134,7 @@ python cluster_iSCALE.py \
     --n-clusters=${n_clusters} \
     --filter-size=8 \
     --min-cluster-size=20 \
-    --mask=${prefix}mask-small-refined.png \
+    --mask=${prefix}filterRGB/mask-small-refined.png \
     --refinedImage=${prefix}filterRGB/conserve_index.pickle \
     ${prefix}embeddings-gene.pickle \
     ${prefix}iSCALE_output/clusters-gene_${n_clusters}/
@@ -148,7 +148,7 @@ python evaluate_fit.py ${prefix} ## training rmse and pearson
 ################### Cell type annotation for whole tissue ###################
 
 ### Annotation using example marker list markers_example.csv
-python pixannot_percentile.py ${prefix} ${prefix}markers_example.csv ${prefix}/iSCALE_output/annotations/
+python pixannot_percentile.py ${prefix} ${prefix}markers_exampleFile.csv ${prefix}/iSCALE_output/annotations/
 
 
 

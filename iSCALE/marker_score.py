@@ -97,7 +97,7 @@ def compute_score(cnts, mask=None, factor=None):
 def get_marker_score(prefix, genes_marker, factor=1):
 
     genes = read_lines(prefix+'gene-names.txt')
-    mask = load_image(prefix+'mask-small-refined.png') > 0
+    mask = load_image(prefix+'filterRGB/mask-small-refined.png') > 0
 
     gene_names = set(genes_marker).intersection(genes)
     cnts = [
@@ -113,7 +113,7 @@ def get_marker_score(prefix, genes_marker, factor=1):
 def get_marker_score_percentile(prefix, genes_marker, factor=1):
 
     genes = read_lines(prefix+'gene-names.txt')
-    mask = load_image(prefix+'mask-small-refined.png') > 0
+    mask = load_image(prefix+'filterRGB/mask-small-refined.png') > 0
 
     gene_names = set(genes_marker).intersection(genes)
     cnts = [

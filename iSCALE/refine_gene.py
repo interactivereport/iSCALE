@@ -1,19 +1,11 @@
 import sys
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 # from matplotlib.colors import LogNorm
 import seaborn as sns
 from visual import plot_labels, plot_label_masks
-
 from utils import load_pickle, read_lines, save_tsv, load_image
-
-
-import os
-import pickle
-import numpy as np
-
 import os
 import pickle
 import numpy as np
