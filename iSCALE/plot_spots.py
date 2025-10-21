@@ -22,9 +22,16 @@ def plot_spots_multi(
 
 def main():
     prefix = sys.argv[1]  
-    grayHE_flag = sys.argv[2].lower() in ("true", "1", "yes")
+    #grayHE_flag = sys.argv[2].lower() in ("true", "1", "yes")
+    arg = sys.argv[2]
+    if "=" in arg:
+        key, val = arg.split("=")
+        grayHE_flag = val.lower() in ("true","1","yes")
+    else:
+        grayHE_flag = arg.lower() in ("true","1","yes")
 
     factor = 16
+    print(grayHE_flag)
 
     infile_cnts = f'{prefix}cnts.tsv'
     infile_locs = f'{prefix}locs.tsv'
@@ -45,15 +52,16 @@ def main():
 
     if grayHE_flag:
         if img.ndim == 3 and img.shape[2] == 3:
-            # standard luminance weights
-            img = np.dot(img[..., :3], [0.299, 0.587, 0.114]).astype(np.uint8)
-        if img.ndim == 2:
-            img = np.stack([img] * 3, axis=-1)
+            # Convert RGB H&E to grayscale
+            gray = np.dot(img[..., :3], [0.299, 0.587, 0.114])
+            gray = np.clip(gray, 0, 255).astype(np.uint8)
+            # Stack back into 3 channels so overlay still works
+            img = np.repeat(gray[..., np.newaxis], 3, axis=-1)
 
     if img.dtype == bool:
         img = img.astype(np.uint8) * 255
-    if img.ndim == 2:
-        img = np.tile(img[..., np.newaxis], 3)
+    #if img.ndim == 2:
+    #    img = np.tile(img[..., np.newaxis], 3)
 
     # select genes
     gene_names = read_lines(infile_genes)

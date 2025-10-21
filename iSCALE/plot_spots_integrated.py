@@ -118,7 +118,14 @@ def plot_spots_multi(
 
 def main():
     prefix = sys.argv[1]  
-    grayHE_flag = sys.argv[2].lower() in ("true", "1", "yes")
+    #grayHE_flag = sys.argv[2].lower() in ("true", "1", "yes")
+    arg = sys.argv[2]
+    if "=" in arg:
+        key, val = arg.split("=")
+        grayHE_flag = val.lower() in ("true","1","yes")
+    else:
+        grayHE_flag = arg.lower() in ("true","1","yes")
+
     dist = int(sys.argv[3])  
 
     factor = 16
