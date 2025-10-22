@@ -1,9 +1,13 @@
+<p align="left">
+  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_fig1_top.png" width="300"/>
+</p>
+
 
 # Scaling up spatial transcriptomics for large-sized tissues with **iSCALE**
 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_fig1.png" width="1200"/>
+  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_fig1_.png" width="1200"/>
 </p>
 <p align="center">
   <strong>Figure:</strong> <em>iSCALE workflow</em>
