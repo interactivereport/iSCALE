@@ -24,7 +24,7 @@ pixel_size=0.5  # desired pixel size of large H&E mother image
 
 # User selection 
 n_genes=100  # number of most variable genes to impute (e.g. 1000)
-n_clusters=20 # number of clusters
+n_clusters=15 # number of clusters
 dist_ST=100 # smoothing parameter across daughter ST samples
 
 # ======================================================
@@ -132,7 +132,7 @@ python merge_imputed.py ${prefix} 1 #can change 1 for varying resolution
 #### segment image by gene features
 python cluster_iSCALE.py \
     --n-clusters=${n_clusters} \
-    --filter-size=8 \
+    --filter-size=2 \
     --min-cluster-size=20 \
     --mask=${prefix}filterRGB/mask-small-refined.png \
     --refinedImage=${prefix}filterRGB/conserve_index.pickle \
