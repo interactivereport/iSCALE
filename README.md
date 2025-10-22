@@ -1,5 +1,5 @@
 <p align="left">
-  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_fig1_top.png" width="250"/>
+  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_fig1_top.png" width="300"/>
 </p>
 
 
