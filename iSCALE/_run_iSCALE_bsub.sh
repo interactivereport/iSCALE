@@ -27,7 +27,7 @@ n_genes=100  # number of most variable genes to impute (e.g. 1000)
 n_clusters=15 # number of clusters
 dist_ST=100 # smoothing parameter across daughter ST samples
 
-# ======================================================
+# ============================================================
 
 export OPENBLAS_NUM_THREADS=32
 export OMP_NUM_THREADS=32
