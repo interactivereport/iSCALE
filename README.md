@@ -160,16 +160,16 @@ iSCALE-main/iSCALE/Data/<project_name>/
 
 Parameters are set in the run scripts (`_run_iSCALE_sbatch.sh` or `_run_iSCALE_bsub.sh`).
 
-| Parameter                | Description                                                                 | Default Example   |
-|--------------------------|-----------------------------------------------------------------------------|-------------------|
-| `prefix_general`         | Project directory path (must contain `DaughterCaptures` and `MotherImage`)  | `Data/demo/`      |
-| `daughterCapture_folders`| List of daughter capture folders                                            | `("D1" "D2" "D3")`|
-| `device`                 | Compute device: `"cuda"` (GPU) or `"cpu"`                                   | `"cuda"`          |
-| `pixel_size_raw`         | Pixel size (µm/pixel) of raw H&E                                            | `0.252`           |
-| `pixel_size`             | Desired pixel size after rescaling                                          | `0.5`             |
-| `n_genes`                | Number of most variable genes to impute                                     | `100`             |
-| `n_clusters`             | Number of clusters for downstream analysis                                  | `20`              |
-| `dist_ST`                | Smoothing parameter across ST captures (integration sharpness)              | `100`             |
+| Parameter                | Description                                                                 | Default Example            |
+|--------------------------|-----------------------------------------------------------------------------|----------------------------|
+| `prefix_general`         | Project directory path (must contain `DaughterCaptures` and `MotherImage`)  | `Data/demo/`               |
+| `daughterCapture_folders`| List of daughter capture folders                                            | `("D1" "D2" "D3" "D4" D5")`|
+| `device`                 | Compute device: `"cuda"` (GPU) or `"cpu"`                                   | `"cuda"`                   |
+| `pixel_size_raw`         | Pixel size (µm/pixel) of raw H&E                                            | `0.252`                    |
+| `pixel_size`             | Desired pixel size after rescaling                                          | `0.5`                      |
+| `n_genes`                | Number of most variable genes to impute                                     | `100`                      |
+| `n_clusters`             | Number of clusters for downstream analysis                                  | `20`                       |
+| `dist_ST`                | Smoothing parameter across ST captures (integration sharpness)              | `100`                      |
 
 **Notes**  
 - `prefix_general` is the main project folder.  
