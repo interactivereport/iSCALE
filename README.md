@@ -1,5 +1,5 @@
 <p align="left">
-  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_fig1_top.png" width="300"/>
+  <img src="https://raw.githubusercontent.com/amesch441/iSCALE/main/assets/iSCALE_fig1_top.png" width="250"/>
 </p>
 
 
@@ -13,8 +13,11 @@
   <strong>Figure:</strong> <em>iSCALE workflow</em>
 </p>
 
-**iSCALE** (*Inferring Spatially resolved Cellular Architectures for Large-sized tissue Environments*)  
-is a novel framework designed to integrate multiple daughter captures and utilize H&E information from large tissue samples, enabling prediction of gene expression with near single-cell resolution across whole-slide tissues.
+<p align="justify">
+<b>iSCALE</b> (<i>Inferring Spatially resolved Cellular Architectures for Large-sized tissue Environments</i>)  
+is a novel framework designed to integrate multiple daughter captures and utilize H&amp;E information from large tissue samples, enabling prediction of gene expression with near single-cell resolution across whole-slide tissues.
+</p>
+
 
 ---
 
@@ -82,8 +85,9 @@ Ground truth for this demo gastric tumor tissue can be found in the `cnts-truth-
 - Use `_run_iSCALE_bsub.sh` if your system uses **LSF**.  
   (These scripts are identical except for scheduler setup.)
 
-⚠️ **Important**: Make sure to edit the header of the run script (`#SBATCH` for SLURM or `#BSUB` for LSF) to set the correct **queue/partition name** for your system, as well as any resource requests (GPUs, memory, runtime).
-
+<p align="justify">
+⚠️ <b>Important</b>: Make sure to edit the header of the run script (<code>#SBATCH</code> for SLURM or <code>#BSUB</code> for LSF) to set the correct queue/partition name for your system, as well as any resource requests (GPUs, memory, runtime).
+</p>
 ---
 
 ## 📂 Repository Structure
@@ -205,7 +209,7 @@ All results are saved to `iSCALE_output/`:
 
 If you use iSCALE, please cite:
 
-> Schroeder AR, et al. *Scaling up spatial transcriptomics for large-sized tissues: uncovering cellular-level tissue architecture beyond conventional platforms.*  
+> Schroeder A., et al. *Scaling up spatial transcriptomics for large-sized tissues: uncovering cellular-level tissue architecture beyond conventional platforms.*  
 > **Nature Methods** (2025).  
 > [https://www.nature.com/articles/s41592-025-02770-8](https://www.nature.com/articles/s41592-025-02770-8)
 
